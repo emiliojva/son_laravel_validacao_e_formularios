@@ -1,5 +1,6 @@
 # SON - Laravel Validação e Formulários 
 
+
 ## Aula 1
 ##### COMANDOS INICIAIS
 
@@ -25,7 +26,12 @@ Migrar tabelas via php artisan(laravel)
 Se Deletar um arquivo da pasta migration precisa deste comando
 > composer dumpautoload
 
-## Aula 2 
+<br>
+
+---
+
+## Aula 2
+ 
 ###### Migração e cliente Pessoa Física
 
 Criar Model com sua respectiva migration Client(tbl clients) e Category(tbl_categories)
@@ -54,6 +60,10 @@ Schema::create('clients', function (Blueprint $table) {
 Migrar novas colunas
 > php artisan migrate
 
+<br>
+
+---
+
 ## Aula 3 - Model Factory
 
 Documentação
@@ -65,6 +75,7 @@ Gera um Factory Pattern na diretorio /database/factories com nome 'ClientFactory
 Criterios para fabrição dos modelos de clientes para ClientFactory
 Usando lib https://github.com/fzaninotto/Faker/blob/master/readme.md
 ```
+Class ClientFactory { ... 
 use Faker\Generator as Faker;
 
 // Provedor pt_BR, adiciona funções cpf(), cnpj() e etc.
@@ -87,14 +98,39 @@ $factory->define(App\Client::class, function (Faker $faker) {
 });
 ```
 
-#####Acessar tinker para executar/gerar os seguintes comandos:
-######Para gerar apenas usa-se o helper factory():
+Acessar tinker para executar/gerar os seguintes comandos:
+
+Para gerar apenas usa-se o helper factory():
 > $cliente = factory(App\Client::class,10)->make(); // 10 active records (collection)
-######Para persistir no banco de dados:
+
+Para persistir no banco de dados:
 > factory(App\Client::class)->create();
 
+<br>
 
-## Aula 4 - Seeders
+---
+
+## Aula 4 - Geração de CPFs
+```
+... complementando codigo acima da classe ClientFactory
+
+// Provedor pt_BR, adiciona funções cpf(), cnpj() e etc.
+$faker->addProvider(new \Faker\Provider\pt_BR\Person($faker));
+
+$factory->define(App\Client::class, function (Faker $faker) {
+    return [
+        (...)
+        'document_number'=>$faker->cpf(false), // false para nao validar mascara
+        (...)
+    ];
+});
+```
+
+<br>
+
+---
+
+## Aula 5 - Seeders
 
 > Semeadores. Recebem dados retornados da Factory e criam um padrao clean test
 
@@ -132,3 +168,13 @@ Dropando todas as tabelas e refazendo, já com exec do seeder
 > php artisan migrate:refresh --seed
 
 > Acessando o tinker novamente, verá os registros iniciais.
+
+<br>
+
+---
+
+## Aula 6 - Criando rotas em modo resource
+
+Criando Controllers Resources (Controllers com Rotas para Actions CRUD )
+> php artisan make:controller Admin\ClientsController --resource
+
