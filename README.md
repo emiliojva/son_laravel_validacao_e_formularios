@@ -1,5 +1,6 @@
 # SON - Laravel Validação e Formulários 
 
+
 ## Aula 1
 ##### COMANDOS INICIAIS
 
@@ -25,7 +26,12 @@ Migrar tabelas via php artisan(laravel)
 Se Deletar um arquivo da pasta migration precisa deste comando
 > composer dumpautoload
 
-## Aula 2 
+<br>
+
+---
+
+## Aula 2
+ 
 ###### Migração e cliente Pessoa Física
 
 Criar Model com sua respectiva migration Client(tbl clients) e Category(tbl_categories)
@@ -54,6 +60,10 @@ Schema::create('clients', function (Blueprint $table) {
 Migrar novas colunas
 > php artisan migrate
 
+<br>
+
+---
+
 ## Aula 3 - Model Factory
 
 Documentação
@@ -65,6 +75,7 @@ Gera um Factory Pattern na diretorio /database/factories com nome 'ClientFactory
 Criterios para fabrição dos modelos de clientes para ClientFactory
 Usando lib https://github.com/fzaninotto/Faker/blob/master/readme.md
 ```
+Class ClientFactory { ... 
 use Faker\Generator as Faker;
 
 // Provedor pt_BR, adiciona funções cpf(), cnpj() e etc.
@@ -87,14 +98,39 @@ $factory->define(App\Client::class, function (Faker $faker) {
 });
 ```
 
-#####Acessar tinker para executar/gerar os seguintes comandos:
-######Para gerar apenas usa-se o helper factory():
+Acessar tinker para executar/gerar os seguintes comandos:
+
+Para gerar apenas usa-se o helper factory():
 > $cliente = factory(App\Client::class,10)->make(); // 10 active records (collection)
-######Para persistir no banco de dados:
+
+Para persistir no banco de dados:
 > factory(App\Client::class)->create();
 
+<br>
 
-## Aula 4 - Seeders
+---
+
+## Aula 4 - Geração de CPFs
+```
+... complementando codigo acima da classe ClientFactory
+
+// Provedor pt_BR, adiciona funções cpf(), cnpj() e etc.
+$faker->addProvider(new \Faker\Provider\pt_BR\Person($faker));
+
+$factory->define(App\Client::class, function (Faker $faker) {
+    return [
+        (...)
+        'document_number'=>$faker->cpf(false), // false para nao validar mascara
+        (...)
+    ];
+});
+```
+
+<br>
+
+---
+
+## Aula 5 - Seeders
 
 > Semeadores. Recebem dados retornados da Factory e criam um padrao clean test
 
@@ -133,7 +169,11 @@ Dropando todas as tabelas e refazendo, já com exec do seeder
 
 > Acessando o tinker novamente, verá os registros iniciais.
 
-## Aula 5 - Criando rotas em modo resource
+<br>
+
+---
+
+## Aula 6 - Criando rotas em modo resource
 
 > Resource Rotes
 São rotas padronizadas para lidar com tarefas de CRUD (Create, Retrieve, Update e Delete).
@@ -141,8 +181,8 @@ São rotas padronizadas para lidar com tarefas de CRUD (Create, Retrieve, Update
 Documentação
 > https://laravel.com/docs/5.5/controllers#resource-controllers
 
-Criando um controller com suas resources rotes dentro de uma subdiretório
->php artisan make:controller Admin\ClientsController --resource
+Criando Controllers Resources (Controllers com Rotas para Actions CRUD ), dentro de uma subdiretório
+> php artisan make:controller Admin\ClientsController --resource
 
 Classe 'ClientsController' com seu padrao de rotas resources(actions crud). 
 ```
@@ -232,3 +272,42 @@ class ClientsController extends Controller // controller resource
     }
 }
 ```
+
+> Resource Routes 
+
+Formas de Configuração das rotas para Resource
+
+> Usando resource sem grupos de rotas. gera admin/create e etc.
+````
+/**
+ * Declarando rota para recurdo de nome admin.
+ * Ex: 'admin/store', 'admin/destroy' e etc.
+ */ 
+Route::resource('admin','Admin\ClientsController');    
+````
+
+> Usando resource com grupos de rotas. gera admin/create e etc.
+````
+/**
+ *  Declarando um resource dentro de um grupo rota. 
+ *  admin/[ClientsController@actions]
+ */
+ Route::group( ['prefix'=>'admin'],function(){
+     Route::resource('clients','Admin\ClientsController');        
+ });
+ ````
+
+> Usando resource com grupos de rotas e namespace. Evita repetição do namespace na frente da string, no parametro de classe
+
+````
+/**
+ *  Declarando groupo rota verboso(detalhado), com uso do param namespace.
+ *  Herdará actions do ClientsController que é um resource route (index,create e outros metodos do padrao)
+ */
+ Route::group([
+     'prefix'    =>'admin',
+     'namespace' =>'Admin'
+ ],function(){
+     Route::resource('clients','ClientsController');
+ });
+````
