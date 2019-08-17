@@ -14,8 +14,14 @@ class ClientsController extends Controller // controller resource
      */
     public function index()
     {
+
         //
-        echo "Index ou Listing";
+        // echo "Index ou Listing";
+
+        $clientsARCollection = \App\Client::all();
+
+        return view('admin.clients.index', compact(['clientsARCollection']));
+
     }
 
     /**
