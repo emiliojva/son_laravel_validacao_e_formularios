@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
+use \App\Client as Client;
+
 class ClientsController extends Controller // controller resource
 {
     /**
@@ -14,7 +16,6 @@ class ClientsController extends Controller // controller resource
      */
     public function index()
     {
-
         //
         // echo "Index ou Listing";
 
@@ -31,8 +32,8 @@ class ClientsController extends Controller // controller resource
      */
     public function create()
     {
-        //
-        echo "GET - Form to Creates one registry";
+        // echo "GET - Form to Creates one registry";
+        return view('admin.clients.create');
     }
 
     /**
@@ -43,8 +44,14 @@ class ClientsController extends Controller // controller resource
      */
     public function store(Request $request)
     {
-        //
-        echo "POST - Storing Form data Post";
+        //  echo "POST - Storing Form data Post";
+        // dump($request->all());
+        $data = $request->all();
+        $data['defaulter'] = 0; // inadimplente
+        Client::create($data);
+
+        return redirect()->to('/admin/clients');
+        
     }
 
     /**

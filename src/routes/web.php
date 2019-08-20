@@ -19,7 +19,7 @@ Route::get('/', function () {
  * Declarando rota para recurdo de nome admin.
  * Ex: 'admin/store', 'admin/destroy' e etc.
  */ 
-Route::resource('admin','Admin\ClientsController');    
+//Route::resource('admin','Admin\ClientsController');    
 
 /**
  *  Declarando um resource dentro de um grupo rota. 
@@ -33,10 +33,10 @@ Route::resource('admin','Admin\ClientsController');
  *  Declarando groupo rota verboso(detalhado), com uso do param namespace.
  *  Herdará actions do ClientsController que é um resource route (index,create e outros metodos do padrao)
  */
-// Route::group([
-//     'prefix'    =>'admin',
-//     'namespace' =>'Admin'
-// ],function(){
-//     Route::resource('clients','ClientsController');
-// });
+Route::group([
+    'prefix'    =>'admin',
+    'namespace' =>'Admin'
+],function(){
+    Route::resource('clients','ClientsController');
+});
 

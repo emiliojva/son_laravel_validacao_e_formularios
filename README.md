@@ -371,3 +371,26 @@ codigo para retornar todos os clientes e enviar para o sistema de template engin
     </tbody>
 </table>
 ````
+
+## Aula 8 - Blade - Trabalhando com layouts
+
+> Templates/Layouts 
+com base no template engine Blade
+
+Documentação
+> https://laravel.com/docs/5.5/blade#defining-a-layout
+
+Diretiva @yield - Criador de Seções (sidebar, footer, content e etc...)
+> @yield é usada para exibir o conteúdo de uma determinada seção, definida dentro do layout.
+
+Diretiva @section
+> @section, como o nome indica, define uma seção do conteúdo. Sendo assim, O valor(html) contido entre a @section('nome_especificado'), será alocado em @yield('nome_especificado')
+
+Extendendo o layout
+> usa-se a diretiva @extends('pasta_do_layout/nome_do_layout') para definir qual será o arquivo base que detem a yield('content') na seção apreciada.
+
+Basico de layout.
+> Basicamente define-se qual layout será extendido (@extends) e o conteudo para @yield('content') que é feito com @section('content') fazendo wrap do html desejavel.
+
+CSS e JS
+> A montagem do layout.blade.php compreende inclusão de css e js, em caminho padrão, dentro de public/css/app.css e /public/js/app.js
