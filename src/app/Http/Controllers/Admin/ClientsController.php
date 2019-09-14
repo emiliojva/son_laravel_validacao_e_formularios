@@ -44,19 +44,9 @@ class ClientsController extends Controller // controller resource
      */
     public function store(Request $request)
     {
-        $maritalStatus = implode( ',' , array_keys(Client::MARITAL_STATUS) );
 
-        // Metodo de Validação do laravel. Se nao atender, retorna para mesma página
-        $this->validate($request, [
-            'name'=>'required|max:255', // obrigatorio e no max 255 chars
-            'document_number'=> 'required',
-            'email'=>'required|email',
-            'phone'=>'required',
-            'date_birth'=>'required|date',
-            'marital_status'=>"required|in:{$maritalStatus}",
-            'sex'=>'required|in:m,f',
-            'physical_desability'=>'max:255'
-        ]);
+        // validando entrada do formulario
+        $this->_validate($request);
 
         //  echo "POST - Storing Form data Post";
         // dump($request->all());
@@ -64,7 +54,7 @@ class ClientsController extends Controller // controller resource
         $data['defaulter'] = $request->has('defaulter'); // inadimplente
         Client::create($data);
 
-        return redirect()->to('/admin/clients');
+        return redirect()->route('clients.index'); //return redirect()->route('/admin/clients');
         
     }
 
@@ -88,8 +78,15 @@ class ClientsController extends Controller // controller resource
      */
     public function edit($id)
     {
-        //
-        echo "GET - Form loads id {$id} to Update one registry";
+
+        // echo "GET - Form loads id {$id} to Update one registry";
+
+        /**
+         * @global $clientsAR \Illuminate\Database\Eloquent\Model
+         */
+        $clientsAR = Client::findOrFail($id); // O metodo findOrFail ja retorna uma excecao para uma pagina 404
+
+        return view('admin.clients.edit', compact( ['clientsAR'] ));
     }
 
     /**
@@ -101,8 +98,26 @@ class ClientsController extends Controller // controller resource
      */
     public function update(Request $request, $id)
     {
-        //
-        echo "PUT - Updating Form data Post";
+        // echo "PUT - Updating Form data Post";
+
+        /**
+         * @global $clientsAR \Illuminate\Database\Eloquent\Model
+         */
+        $clientsAR = Client::findOrFail($id); // O metodo findOrFail ja retorna uma excecao para uma pagina 404
+
+        // validando entrada do formulario
+        $this->_validate($request);
+
+        $data = $request->all();
+
+        $data['defaulter'] = $request->has('defaulter'); // inadimplente
+
+        $clientsAR->fill($data);
+
+        $clientsAR->save();
+
+        return redirect()->route('clients.index'); // OR redirect()->route('/admin/clients');
+
     }
 
     /**
@@ -115,5 +130,23 @@ class ClientsController extends Controller // controller resource
     {
         //
         echo "DELETE - Updating Form data Post";
+    }
+
+    protected function _validate(Request $request)
+    {
+        $maritalStatus = implode( ',' , array_keys(Client::MARITAL_STATUS) );
+
+        // Metodo de Validação do laravel. Se nao atender, retorna para mesma página
+        $this->validate($request, [
+            'name'=>'required|max:255', // obrigatorio e no max 255 chars
+            'document_number'=> 'required',
+            'email'=>'required|email',
+            'phone'=>'required',
+            'date_birth'=>'required|date',
+            'marital_status'=>"required|in:{$maritalStatus}",
+            'sex'=>'required|in:m,f',
+            'physical_desability'=>'max:255'
+        ]);
+
     }
 }
