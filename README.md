@@ -396,7 +396,7 @@ CSS e JS
 > A montagem do layout.blade.php compreende inclusão de css e js, em caminho padrão, dentro de public/css/app.css e /public/js/app.js
 
 
-## Aula 9 - Mass Assignment e criação de clientes
+## Aula 9 e 10 - Mass Assignment e criação de clientes
 
 Listar Rotas Resources e outras
 >php artisan route:list
@@ -420,6 +420,33 @@ Redirecionando para listagem ou outro
 
 Forçar verificacao de um campo como boolean, tal como checkobox field
 >$data['defaulter'] = $request->has('defaulter');
+
+
+## Aula 11 - Rotas Nomeadas
+
+> Criando uma rota nomeada
+
+````
+Route::name('meu-nome')->get('/rota-nomeada',function (){
+    echo "Hello Rota nomeada";
+});
+
+// OU de outra forma
+
+Route::get('/rota-nomeada',function (){
+    echo "Hello Rota nomeada";
+})->name('meu-nome');
+
+````
+
+Em Rosource Routes é possivel ver o nome da rota na coluna 'name' do Route:list
+> php artisan route:list
+
+Para criar uma ancora pode-se chamar a funcao route para capturar rota por nome
+> <a class="btn btn-default" href="{{ route('clients.create') }}">Criar</a>
+
+
+
 
 
 

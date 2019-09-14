@@ -40,3 +40,12 @@ Route::group([
     Route::resource('clients','ClientsController');
 });
 
+// Criando uma rota nomeada
+
+Route::name('meu-nome')->get('/rota-nomeada',function (){
+    echo "Hello Rota nomeada";
+});
+// ou
+Route::get('/rota-nomeada',function (){
+    echo "Hello Rota nomeada";
+})->name('meu-nome');

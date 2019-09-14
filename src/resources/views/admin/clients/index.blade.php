@@ -7,7 +7,11 @@
 <!-- $yield content value -->
 @section('content')
     <h3>Listagem de clientes</h3>
+
+    <a class="btn btn-default" href="{{ route('clients.create') }}">Criar</a>
+
     <br/><br/>
+
     <table border="1" class="table table-striped">
         <thead>
         <tr>
