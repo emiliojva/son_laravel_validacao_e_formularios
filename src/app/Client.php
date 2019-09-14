@@ -32,7 +32,7 @@ class Client extends Model
         'date_birth',
         'sex',
         'marital_status',
-        'phisycal_disability'
+        'physical_desability'
     ];
 }
 

@@ -44,6 +44,20 @@ class ClientsController extends Controller // controller resource
      */
     public function store(Request $request)
     {
+        $maritalStatus = implode( ',' , array_keys(Client::MARITAL_STATUS) );
+
+        // Metodo de Validação do laravel. Se nao atender, retorna para mesma página
+        $this->validate($request, [
+            'name'=>'required|max:255', // obrigatorio e no max 255 chars
+            'document_number'=> 'required',
+            'email'=>'required|email',
+            'phone'=>'required',
+            'date_birth'=>'required|date',
+            'marital_status'=>"required|in:{$maritalStatus}",
+            'sex'=>'required|in:m,f',
+            'physical_desability'=>'max:255'
+        ]);
+
         //  echo "POST - Storing Form data Post";
         // dump($request->all());
         $data = $request->all();

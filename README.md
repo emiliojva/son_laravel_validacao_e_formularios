@@ -446,6 +446,30 @@ Para criar uma ancora pode-se chamar a funcao route para capturar rota por nome
 > <a class="btn btn-default" href="{{ route('clients.create') }}">Criar</a>
 
 
+## Aula 12 - Iniciando com validações de dados
+
+Documentação
+> https://laravel.com/docs/5.5/validation
+
+Validacao do PHP com Laravel.
+
+Metodo de Validação do laravel. Se nao atender, retorna para mesma página
+
+```
+
+$this->validate($request, [
+    'name'=>'required|max:255', // obrigatorio e no max 255 chars
+    'document_number'=> 'required',
+    'email'=>'required|email',
+    'phone'=>'required',
+    'date_birth'=>'required|date',
+    'marital_status'=>"required|in:{$maritalStatus}",
+    'sex'=>'required|in:m,f',
+    'physical_desability'=>'max:255'
+]);
+```
+
+
 
 
 
