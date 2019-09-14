@@ -6,6 +6,22 @@
 
     <h3>Adicionar Cliente</h3>
 
+    {{--Se houver erros--}}
+    @if ($errors->any())
+
+        <ul class="alert alert-danger">
+
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+
+        </ul>
+
+    @endif
+
+
+
+
     <form method="post" action="/admin/clients/">
 
         {{-- Validation Field Protection. required to submit post --}}

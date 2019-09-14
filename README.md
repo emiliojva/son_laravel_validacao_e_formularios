@@ -469,6 +469,36 @@ $this->validate($request, [
 ]);
 ```
 
+## Aula 13 - Mostrando erros de validação
+
+Documentação
+> https://laravel.com/docs/5.5/validation#working-with-error-messages
+
+Podemos traduzir as mensagens padrao
+> em /resources/lang 
+
+
+> A variavel chamada $errors vem como padrao no blade. Usando o metodo ->all() retorna as mensagens de erros como array(); 
+
+> $errors contem metodos any, all e outros
+```
+{{--Se houver erros--}}
+
+@if ($errors->any())
+
+ <ul class="alert alert-danger">
+
+     @foreach ($errors->all() as $error)
+         <li>{{ $error }}</li>
+     @endforeach
+
+ </ul>
+
+@endif
+```
+        
+        
+
 
 
 
