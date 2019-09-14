@@ -1,13 +1,18 @@
 @extends('layouts.bootstrap')
 
-@section('title','Formularios e Validações - Mass Assisnment e Criação de Clientes')
+@section('title','Laravel: Formularios e Validações')
 
 @section('content')
+
+    <h3>Adicionar Cliente</h3>
+
     <form method="post" action="/admin/clients/">
 
+        {{-- Validation Field Protection. required to submit post --}}
         {{csrf_field()}}
 
         <input type="hidden" name="client_type" value="">
+
         <div class="form-group">
             <label for="name">Nome</label>
             <input class="form-control" id="name" name="name" value="">
@@ -38,11 +43,10 @@
                 <option value="3" >Divorciado</option>
             </select>
         </div>
-        <div class="form-group">
 
-        <label for="date_birth">Data Nasc.</label>
-            <input class="form-control" id="date_birth" name="date_birth" type="date"
-                value="">
+        <div class="form-group">
+            <label for="date_birth">Data Nasc.</label>
+            <input class="form-control" id="date_birth" name="date_birth" type="date" value="">
         </div>
 
         <div class="radio">

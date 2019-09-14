@@ -47,7 +47,7 @@ class ClientsController extends Controller // controller resource
         //  echo "POST - Storing Form data Post";
         // dump($request->all());
         $data = $request->all();
-        $data['defaulter'] = 0; // inadimplente
+        $data['defaulter'] = $request->has('defaulter'); // inadimplente
         Client::create($data);
 
         return redirect()->to('/admin/clients');

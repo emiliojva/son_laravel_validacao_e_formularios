@@ -394,3 +394,35 @@ Basico de layout.
 
 CSS e JS
 > A montagem do layout.blade.php compreende inclusão de css e js, em caminho padrão, dentro de public/css/app.css e /public/js/app.js
+
+
+## Aula 9 - Mass Assignment e criação de clientes
+
+Listar Rotas Resources e outras
+>php artisan route:list
+
+* Etapas para criar um formulário POST
+
+Adicionar o campo CSRF com função 
+> {{ csrf_field }} dentro do form tag
+
+Mass assigment - atribuição em massa 
+> $fillable = ['name','document_number', '...'], no model "Client"
+
+Usar a injeção Request $request, do controller, para capturar os dados do POST
+> $request->all();
+
+Atribuição segura dos dados com a propriedade $fillable do model. Filtrado pelo fillable
+> Client::create( $request->all() );
+
+Redirecionando para listagem ou outro
+> return redirect()->to('/admin/clients');
+
+Forçar verificacao de um campo como boolean, tal como checkobox field
+>$data['defaulter'] = $request->has('defaulter');
+
+
+
+
+
+

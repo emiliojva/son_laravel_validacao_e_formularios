@@ -25,7 +25,7 @@
 
             <div class="container">
 
-                <h1>Laravel: Formularios e Validações - Blade, trabalhando com templates </h1>
+                <h1>@yield('title')</h1>
 
                 @yield('content');
 
