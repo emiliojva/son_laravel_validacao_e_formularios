@@ -23,7 +23,7 @@ class CreateClientsTable extends Migration
             $table->date('date_birth'); // data nascimento
             $table->char('sex',1); // genero
             $table->enum('marital_status', array_keys(\App\Client::MARITAL_STATUS));
-            $table->string('phisycal_disability')->nullable(); // deficiencia fisica
+            $table->string('physical_disability')->nullable(); // deficiencia fisica
             $table->timestamps();
         });
     }

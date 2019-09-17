@@ -28,11 +28,11 @@ class Client extends Model
         'document_number',
         'email',
         'phone',
-        'defaulter',
+        'marital_status',
         'date_birth',
         'sex',
-        'marital_status',
-        'physical_desability'
+        'physical_disability',
+        'defaulter'
     ];
 }
 

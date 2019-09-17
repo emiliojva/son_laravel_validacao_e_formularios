@@ -17,6 +17,6 @@ $factory->define(App\Client::class, function (Faker $faker) {
         'date_birth'=>$faker->date(),
         'sex'=> array_rand(App\Client::GENDER),
         'marital_status'=> array_rand( App\Client::MARITAL_STATUS ),
-        'phisycal_disability'=> rand(1,10) % 2 == 0 ? $faker->word : null,
+        'physical_disability'=> rand(1,10) % 2 == 0 ? $faker->word : null,
     ];
 });

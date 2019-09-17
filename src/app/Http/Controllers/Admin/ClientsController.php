@@ -33,6 +33,9 @@ class ClientsController extends Controller // controller resource
     public function create()
     {
         $clientsAR = new Client();
+
+        $clientsAR->defaulter = 0;
+
         // echo "GET - Form to Creates one registry";
         return view('admin.clients.create' , compact('clientsAR'));
     }

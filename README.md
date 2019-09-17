@@ -560,6 +560,16 @@ Convenção de colocar tratamento de erros( erros->all() e errors->any() ) com i
 > @include('form.form_errors') {{-- Se houver erros --}}
 
 
+## Aula 16 - Recuperando dados digitados em formularios
+
+Documentação
+> https://laravel.com/docs/5.5/requests#old-input
+
+Dados de um post submit da requisicao anterior do usuario, para serem reaproveitados em caso de erro de validação. 
+
+função/helper global old('nome_do_campo') recupera dados do post do usuario 
+>old( 'nome_do_campo', valor_do_campo_padrao )
+
 
 
 
