@@ -571,6 +571,23 @@ função/helper global old('nome_do_campo') recupera dados do post do usuario
 >old( 'nome_do_campo', valor_do_campo_padrao )
 
 
+## Aula 17 - Route Model Binding
+
+Ao injetar um ID de modelo em uma ação de rota ou controlador, você frequentemente consulta para recuperar o modelo que corresponde a esse ID. A ligação do modelo de rota do Laravel fornece uma maneira conveniente de injetar automaticamente as instâncias do modelo diretamente em suas rotas. Por exemplo, em vez de injetar o ID de um usuário, você pode injetar a instância inteira do modelo de Usuário que corresponde ao ID fornecido.
+
+documentação
+> https://laravel.com/docs/5.8/routing#route-model-binding
+
+Possibita pegar o ID e injetar diretamente no model de ligação no parametro
+```
+public functionr edit(Client $client)
+{
+    return view('admin.clients.edit' , compact( [ 'client' ] );
+}
+```
+
+
+
 
 
 

@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use \App\Client as Client;
+use Illuminate\Support\Facades\App;
 
 class ClientsController extends Controller // controller resource
 {
@@ -32,12 +33,12 @@ class ClientsController extends Controller // controller resource
      */
     public function create()
     {
-        $clientsAR = new Client();
+        $client = new Client();
 
-        $clientsAR->defaulter = 0;
+        $client->defaulter = 0;
 
         // echo "GET - Form to Creates one registry";
-        return view('admin.clients.create' , compact('clientsAR'));
+        return view('admin.clients.create' , compact('client'));
     }
 
     /**
@@ -68,7 +69,7 @@ class ClientsController extends Controller // controller resource
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Client $client)
     {
         //
         echo "GET - Displaying one registry";
@@ -80,17 +81,15 @@ class ClientsController extends Controller // controller resource
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Client $client)
     {
-
         // echo "GET - Form loads id {$id} to Update one registry";
-
         /**
-         * @global $clientsAR \Illuminate\Database\Eloquent\Model
+         * @global $client \Illuminate\Database\Eloquent\Model
          */
-        $clientsAR = Client::findOrFail($id); // O metodo findOrFail ja retorna uma excecao para uma pagina 404
+//        $client = Client::findOrFail($client); // O metodo findOrFail ja retorna uma excecao para uma pagina 404
 
-        return view('admin.clients.edit', compact( ['clientsAR'] ));
+        return view('admin.clients.edit', compact( ['client'] ));
     }
 
     /**
@@ -100,14 +99,14 @@ class ClientsController extends Controller // controller resource
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Client $client)
     {
         // echo "PUT - Updating Form data Post";
 
         /**
          * @global $clientsAR \Illuminate\Database\Eloquent\Model
          */
-        $clientsAR = Client::findOrFail($id); // O metodo findOrFail ja retorna uma excecao para uma pagina 404
+//        $clientsAR = Client::findOrFail($id); // O metodo findOrFail ja retorna uma excecao para uma pagina 404
 
         // validando entrada do formulario
         $this->_validate($request);
@@ -117,9 +116,9 @@ class ClientsController extends Controller // controller resource
 
         $data['defaulter'] = $request->has('defaulter'); // inadimplente
 
-        $clientsAR->fill($data);
+        $client->fill($data);
 
-        $clientsAR->save();
+        $client->save();
 
         return redirect()->route('clients.index'); // OR redirect()->route('/admin/clients');
 
@@ -131,7 +130,7 @@ class ClientsController extends Controller // controller resource
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Client $client)
     {
         //
         echo "DELETE - Updating Form data Post";

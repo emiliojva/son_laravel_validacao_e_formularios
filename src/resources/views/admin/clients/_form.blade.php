@@ -2,13 +2,13 @@
 
     /*Consumir apenas uma vez persistencia no model*/
 
-    $marital_status = $clientsAR->marital_status; // estado civil
+    $marital_status = $client->marital_status; // estado civil
 
-    $sex = $clientsAR->sex; // genero
+    $sex = $client->sex; // genero
 
-   // $defaulter = $clientsAR->defaulter; // inadimplente
+   // $defaulter = $client->defaulter; // inadimplente
 
-    $defaulter = $clientsAR->defaulter;
+    $defaulter = $client->defaulter;
 
 @endphp
 
@@ -19,25 +19,25 @@
 
 <div class="form-group">
     <label for="name">Nome</label>
-    <input class="form-control" id="name" name="name" value="{{ old('name',$clientsAR->name) }}">
+    <input class="form-control" id="name" name="name" value="{{ old('name',$client->name) }}">
 </div>
 
 <div class="form-group">
     <label for="document_number">Documento</label>
     <input class="form-control" id="document_number" name="document_number"
-           value="{{ old('document_number',$clientsAR->document_number) }}">
+           value="{{ old('document_number',$client->document_number) }}">
 </div>
 
 <div class="form-group">
     <label for="email">E-mail</label>
     <input class="form-control" id="email" name="email" type="email"
-           value="{{ old('email',$clientsAR->email) }}">
+           value="{{ old('email',$client->email) }}">
 </div>
 
 <div class="form-group">
     <label for="phone">Telefone</label>
     <input class="form-control" id="phone" name="phone"
-           value="{{ old('phone',$clientsAR->phone) }}">
+           value="{{ old('phone',$client->phone) }}">
 </div>
 
 <div class="form-group">
@@ -54,7 +54,7 @@
 <div class="form-group">
     <label for="date_birth">Data Nasc.</label>
     <input class="form-control" id="date_birth" name="date_birth" type="date"
-           value="{{ old('date_birth',$clientsAR->date_birth) }}">
+           value="{{ old('date_birth',$client->date_birth) }}">
 </div>
 
 <div class="radio">
@@ -76,7 +76,7 @@
 <div class="form-group">
     <label for="physical_disability">Deficiência Física</label>
     <input class="form-control" id="physical_disability" name="physical_disability"
-           value="{{ old('physical_disability',$clientsAR->physical_disability) }}" />
+           value="{{ old('physical_disability',$client->physical_disability) }}" />
 </div>
 
 <div class="checkbox">

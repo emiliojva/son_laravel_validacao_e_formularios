@@ -9,7 +9,7 @@
     @include('form.form_errors') {{--Se houver erros--}}
 
     {{--Formulario de Edicao--}}
-    <form method="post" action="{{ route('clients.update' , $clientsAR->id) }}">
+    <form method="post" action="{{ route('clients.update' , $client->id) }}">
 
         {{  method_field('put') }} {{-- <input type="hidden" name="_method" value="put"> --}} {{-- Associar verbo HTTP PUT com input hidden OU method_field('PUT') --}} {{-- Equivalent method_field('put') --}}
 
