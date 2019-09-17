@@ -471,6 +471,7 @@ $this->validate($request, [
 
 ## Aula 13 - Mostrando erros de validação
 
+
 Documentação
 > https://laravel.com/docs/5.5/validation#working-with-error-messages
 
@@ -498,6 +499,67 @@ Podemos traduzir as mensagens padrao
 ```
         
         
+## Aula 14 - Página da edição de dados
+
+Capturando dados de com um model ou retornando uma page 404 exception com FindOrFail. 
+> Client::findOrFail($id)
+
+Rotas nomeadas com parametros passados (ex id) com função route(). Link para formulario edicao
+> <a href="{{ route( 'clients.edit', ['client' => $client->id] ) }}">editar</a>
+
+Formulario de edicao apontando action post para rota nomeada para PUT (gera error)
+```
+<form method="post" action="{{ route('clients.update' , $clientsAR->id) }}">
+
+
+```
+
+Method_field para indicar verbo http put, delete e etc
+{{-- Associar verbo HTTP PUT com input hidden OU method_field('PUT') --}}
+{{-- <input type="hidden" name="_method" value="put"> --}}
+{{-- Equivalent method_field('put') --}}
+{{  method_field('put') }}
+
+Criar método protegido para fazer validacao tanto na criacao/edicao
+```
+  protected function _validate(Request $request)
+    {
+        $maritalStatus = implode( ',' , array_keys(Client::MARITAL_STATUS) );
+
+        // Metodo de Validação do laravel. Se nao atender, retorna para mesma página
+        $this->validate($request, [
+            'name'=>'required|max:255', // obrigatorio e no max 255 chars
+            'document_number'=> 'required',
+            'email'=>'required|email',
+            'phone'=>'required',
+            'date_birth'=>'required|date',
+            'marital_status'=>"required|in:{$maritalStatus}",
+            'sex'=>'required|in:m,f',
+            'physical_desability'=>'max:255'
+        ]);
+
+    }
+```
+
+
+Preencher Model Client usando o filtro do fillable
+> $clientsAR->fill($data);
+
+Salvar Model com dados do fill()
+> $clientsAR->save();
+
+Retornar para pagina usando rota nomeada
+> return redirect()->route('clients.index'); //return redirect()->route('/admin/clients');
+
+## Aula 15 - Organização e reaproveitamento de formulários e views
+
+Diretiva @include para incluir controles do formulario(_form.blade.php) no form create e edit
+> @include('_form.blade.php'')
+
+Convenção de colocar tratamento de erros( erros->all() e errors->any() ) com include em (forms/form_erros.blade)
+> @include('form.form_errors') {{-- Se houver erros --}}
+
+
 
 
 

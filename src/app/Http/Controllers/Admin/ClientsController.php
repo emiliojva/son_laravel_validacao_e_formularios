@@ -32,8 +32,9 @@ class ClientsController extends Controller // controller resource
      */
     public function create()
     {
+        $clientsAR = new Client();
         // echo "GET - Form to Creates one registry";
-        return view('admin.clients.create');
+        return view('admin.clients.create' , compact('clientsAR'));
     }
 
     /**
@@ -108,6 +109,7 @@ class ClientsController extends Controller // controller resource
         // validando entrada do formulario
         $this->_validate($request);
 
+        // se passar a validacao pego request sabendo que o preechimento será por conta do $fillable
         $data = $request->all();
 
         $data['defaulter'] = $request->has('defaulter'); // inadimplente
