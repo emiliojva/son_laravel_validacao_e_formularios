@@ -587,6 +587,12 @@ public functionr edit(Client $client)
 ```
 
 
+## Aula 18 - Mostrar dados com modo resource
+
+Criando view para exibir dados do resource show.
+> return view('admin.clients.show' , compact(['client']));
+
+
 
 
 

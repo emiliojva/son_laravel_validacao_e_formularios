@@ -6,9 +6,11 @@
 
 <!-- $yield content value -->
 @section('content')
+
     <h3>Listagem de clientes</h3>
 
-    <a class="btn btn-default" href="{{ route('clients.create') }}">Criar</a>
+
+
 
     <br/><br/>
 
@@ -36,7 +38,8 @@
                 <td>{{ $client->phone }}</td>
                 <td>{{ $client->sex }}</td>
                 <td>
-                    <a href="{{ route( 'clients.edit', ['client' => $client->id] ) }}">editar</a>
+                    <a href="{{ route( 'clients.edit', ['client' => $client->id] ) }}">editar</a> |
+                    <a href="{{ route('clients.show', ['client' => $client->id]) }}">ver</a>
                 </td>
             </tr>
         @endforeach

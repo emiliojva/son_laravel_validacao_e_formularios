@@ -15,19 +15,36 @@
         <link rel="stylesheet" href="/css/app.css">
 
         <!-- Styles -->
-        <style></style>
+        <style>body{overflow-x: hidden;}</style>
 
     </head>
 
     <body>
 
+        <div class="container">
+            {{--Pega a rota nomeada atual--}}
+            @php $route_name = Route::current()->action['as']; @endphp
+
+            @component('layouts.navbar',['route_name'=>$route_name])
+
+                @if(in_array($route_name,['clients.show']) )
+                    <li><a class="btn " href="{{ route('clients.edit',['client' => $client->id]) }}">Editar</a></li>
+                @endif
+
+                @if(in_array($route_name,['clients.index','clients.show']) )
+                    <li><a class="btn" href="{{ route('clients.create') }}">Criar</a></li>
+                @endif
+
+            @endcomponent
+        </div>
+
         <div class="row">
 
             <div class="container">
 
-                <h1>@yield('title')</h1>
+                {{--<h1>@yield('title')</h1>--}}
 
-                @yield('content');
+                @yield('content')
 
             </div>
 

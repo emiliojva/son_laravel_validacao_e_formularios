@@ -66,19 +66,20 @@ class ClientsController extends Controller // controller resource
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @return \Illuminate\Http\Response
      */
     public function show(Client $client)
     {
         //
-        echo "GET - Displaying one registry";
+//        echo "GET - Displaying one registry";
+        return view('admin.clients.show' , compact(['client']));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @return \Illuminate\Http\Response
      */
     public function edit(Client $client)
@@ -96,7 +97,7 @@ class ClientsController extends Controller // controller resource
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $client
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Client $client)
@@ -127,7 +128,7 @@ class ClientsController extends Controller // controller resource
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int  $client
      * @return \Illuminate\Http\Response
      */
     public function destroy(Client $client)
