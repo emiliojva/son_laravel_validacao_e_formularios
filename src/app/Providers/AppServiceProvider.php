@@ -15,6 +15,10 @@ class AppServiceProvider extends ServiceProvider
     {
         // fix error database
         \Schema::defaultStringLength(191);
+
+        // suporte ao enum
+        $platform = \Schema::getConnection()->getDoctrineSchemaManager()->getDatabasePlatform();
+        $platform->registerDoctrineTypeMapping('enum','string');
     }
 
     /**

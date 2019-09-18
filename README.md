@@ -592,7 +592,144 @@ public functionr edit(Client $client)
 Criando view para exibir dados do resource show.
 > return view('admin.clients.show' , compact(['client']));
 
+## Aula 19 - Modelando no banco de dados tipos de cliente
 
+Criando nova migration para alterar uma tabela e adicionar um tipo(cliente pessoa física ou juridica)
+> php artisan make:migration alter_table_to_type_client --table=clients
+
+Criar uma migration para alterar/incluir novo campo em uma tabela, no metodo up() e para desfazer no down()
+````
+ /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('clients', function (Blueprint $table) {
+            //
+            $table->string('document_number')->unique()->change();
+            $table->boolean('defaulter');
+            $table->date('date_birth')->nullable()->change();
+            $table->char('sex',10)->nullable()->change();
+            $table->enum('marital_status',array_keys(\App\Client::MARITAL_STATUS))->nullable()->change();
+            $table->string('company_name')->nullable();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('clients', function (Blueprint $table) {
+            //
+            $table->dropUnique('clients_document_number_unique'); //Drop index criado acima - convencao do laravel para criar indexes -> nomedatabela_nomedocampo_unique
+            $table->date('date_birth')->change(); // change aplicado sem nullable
+            $table->char('sex',10)->change(); // change aplicado sem nullable
+            $table->enum('marital_status',array_keys(\App\Client::MARITAL_STATUS))->change(); //change aplicado sem nullable
+            $table->dropColumn('company_name'); // dropColumn company criada acima
+        });
+    }
+````
+
+Persistir Migration - gera exception ( Changing columns for table "clients" requires Doctrine DBAL; install "doctrine/dbal".)
+> php artisan migrate // Exception lançada por falta da lib doctrine/dbal ao gerar a migração acima
+
+Instalar doctrine/dbal para permitir migrations.  
+> composer require doctrine/dbal // CLI
+
+Novo RunException será lançado devido tipo enum nao ser conhecido. 
+> Unknown database type enum requested, Doctrine\DBAL\Platforms\MySQL57Platform may not support it.
+
+Registrando a plataforma de suporte ao enum no AppServiceProvider boot();
+```
+// suporte ao enum
+$platform = \Schema::getConnection()->getDoctrineSchemaManager()->getDatabasePlatform();
+$platform->registerDoctrineTypeMapping('enum','string');
+```
+
+Tratando ERROR - "Unknown column type "char" requested."
+
+```
+    public function up()
+    {
+        Schema::table('clients', function (Blueprint $table) {
+            //
+            $table->string('document_number')->unique()->change();
+            $table->date('date_birth')->nullable()->change();
+            $table->string('company_name')->nullable();
+
+            /**
+             * Registrar enum manualmente devido a particularidade de banco(sgbd)
+             */
+            $this->_registrarManualmenteMigrations(); // $table->enum('marital_status',array_keys(\App\Client::MARITAL_STATUS))->nullable()->change(); //            $table->char('sex',10)->nullable()->change();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('clients', function (Blueprint $table) {
+            //
+            $table->dropUnique('clients_document_number_unique'); //Drop index criado acima - convencao do laravel para criar indexes -> nomedatabela_nomedocampo_unique
+            $table->date('date_birth')->change(); // change aplicado sem nullable
+            $table->dropColumn('company_name'); // dropColumn company criada acima
+
+
+            /**
+             * DEFAZ manualmente devido a particularidade de banco(sgbd)
+             */
+            $this->_desfazerManualmenteMigrations();
+        });
+    }
+
+    **
+     * Registra operacaoes de migracao no banco de forma direta ou manual. (sem uso de helper ou dbal package)
+     */
+    private function _registrarManualmenteMigrations()
+    {
+        /**
+         * alterando campo sexo tipo char aceitando NULL
+         */
+        \DB::statement('ALTER TABLE clients CHANGE COLUMN sex sex CHAR NULL');
+
+        /**
+         * alterando campo estado civil para enum e aceitando NULL
+         */
+        $maritalStatus = array_keys(\App\Client::MARITAL_STATUS);
+        $maritalStatusString = array_map(function($value){
+            return "'{$value}'";
+        },$maritalStatus);
+        $maritalStatusEnum = implode(',' , $maritalStatusString);
+        \DB::statement("ALTER TABLE clients CHANGE COLUMN marital_status marital_status ENUM($maritalStatusEnum) NULL");
+    }
+
+    /**
+     * Desfaz migracoes da funcao 'registrarManualmenteMigrations'
+     */
+    private function _desfazerManualmenteMigrations()
+    {
+        \DB::statement('ALTER TABLE clients CHANGE COLUMN sex sex CHAR NOT NULL'); // $table->char('sex',10)->change(); // change aplicado sem nullable
+        $maritalStatus = array_keys(\App\Client::MARITAL_STATUS);
+        $maritalStatusString = array_map(function($value){
+            return "'{$value}'";
+        },$maritalStatus);
+        $maritalStatusEnum = implode(',' , $maritalStatusString);
+        \DB::statement("ALTER TABLE clients CHANGE COLUMN marital_status marital_status ENUM($maritalStatusEnum) NOT NULL"); // $table->enum('marital_status',array_keys(\App\Client::MARITAL_STATUS))->change(); //change aplicado sem nullable
+    }
+```
+
+efetuar enfim a migração
+> php artisan migrate // para up
+> php artisan migrate:rollback // para down
+> php artisan db:seed // para incluir 5 registros novos
 
 
 
