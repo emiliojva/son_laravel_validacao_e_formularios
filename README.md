@@ -733,7 +733,62 @@ efetuar enfim a migração
 
 
 
+## Aula 20 - Criando campo para separar tipos de clientes (pessoa fisica ou juridica)
 
+Adicionar nova migration para manipular tabela existente
+> php artisan make:migration add_client_type_field_to_clients_table --table=clients
+
+Adicionando campo para tipo de cliente(pessoa fisica ou juridica) baseado nas constantes do Model Client 
+````
+class AddClientTypeFieldToClientsTable extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::table('clients', function (Blueprint $table) {
+            /**
+             * Adiciona um tipo de pessoa. FISICA(individual)OU JURIDICA(legal)
+             */
+            $table->string('client_type')->default(\App\Client::TYPE_INDIVIDUAL); // NOT NULL, pessoa física por padrão
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::table('clients', function (Blueprint $table) {
+            // remove tipo de pessoa
+            $table->dropColumn('client_type'); // remove coluna tipo de pessoa
+        });
+    }
+}
+````
+
+Criando constantes no model Client
+````
+class Client extends Model
+{
+
+    const TYPE_INDIVIDUAL = 'individual'; // pessoa física
+    const TYPE_LEGAL = 'juridica'; // pessoa juridica
+    (...)
+}
+````
+
+
+Executando migração
+> php artisan migration
+
+
+## Aula 21 - Seeders com estados de dados
 
 
 
