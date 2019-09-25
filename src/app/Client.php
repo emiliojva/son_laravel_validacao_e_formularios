@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Client extends Model
 {
 
-    const TYPE_INDIVIDUAL = 'individual'; // pessoa física
+    const TYPE_INDIVIDUAL = 'fisica'; // pessoa física
     const TYPE_LEGAL = 'juridica'; // pessoa juridica
 
     //

@@ -15,6 +15,7 @@ class ClientsTableSeeder extends Seeder
         /**
          * @var factory Illuminate\Database\Eloquent\FactoryBuilder
          */
-        factory(App\Client::class,5)->create();
+        factory(App\Client::class,5)->states(App\Client::TYPE_INDIVIDUAL)->create();
+        factory(App\Client::class,5)->states(App\Client::TYPE_LEGAL)->create();
     }
 }

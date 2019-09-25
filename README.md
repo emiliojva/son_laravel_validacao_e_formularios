@@ -790,6 +790,14 @@ Executando migração
 
 ## Aula 21 - Seeders com estados de dados
 
+Os estados permitem definir modificações discretas que podem ser aplicadas às fábricas modelo em qualquer combinação. Por exemplo, seu modelo de usuário pode ter um estado delinqüente que modifica um de seus valores de atributo padrão. Você pode definir suas transformações de estado usando o método state. Para estados simples, você pode passar uma matriz de modificações de atributos
+
+Documentação
+> https://laravel.com/docs/5.6/database-testing#factory-states
+
+> A chegagem do model em $fillable é desabilitada paras as factories. Portanto ele permite inserir dados
+
+
 
 
 
