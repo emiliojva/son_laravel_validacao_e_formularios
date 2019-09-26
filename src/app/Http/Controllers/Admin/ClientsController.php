@@ -31,14 +31,16 @@ class ClientsController extends Controller // controller resource
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
         $client = new Client();
 
         $client->defaulter = 0;
 
+        $clientType = \App\Client::getTypeClient( $request->client_type );
+
         // echo "GET - Form to Creates one registry";
-        return view('admin.clients.create' , compact('client'));
+        return view('admin.clients.create' , compact('client', 'clientType'));
     }
 
     /**

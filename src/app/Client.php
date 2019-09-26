@@ -18,8 +18,8 @@ class Client extends Model
     ]; // status conjugal
 
     const GENDER = [
-        'm'=>'m',
-        'f'=>'f'
+        'm' => 'm',
+        'f' => 'f'
     ]; // genero/sexo
 
     const DEFAULTER = [
@@ -38,6 +38,16 @@ class Client extends Model
         'physical_disability',
         'defaulter'
     ];
+
+    /**
+     * @param string $type
+     * @return string
+     */
+    public static function getTypeClient(string $type = null)
+    {
+        return $type === self::TYPE_LEGAL ? $type : self::TYPE_INDIVIDUAL;
+    }
+
 }
 
 
